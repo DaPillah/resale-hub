@@ -1,0 +1,18 @@
+.drop-alert {
+  background: var(--warn-bg); color: var(--warn-txt);
+  border-radius: var(--radius); padding: 10px 14px;
+  font-size: 13px; margin-bottom: 16px; cursor: pointer;
+  border: 0.5px solid var(--warn-txt);
+}
+.drop-alert:hover { opacity: 0.85; }
+.card-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
+.card-header-row .card-title { margin: 0; }
+.offer-count { font-size: 12px; color: var(--text2); }
+.offer-preview { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 0.5px solid var(--border); cursor: pointer; gap: 12px; }
+.offer-preview:last-child { border-bottom: none; }
+.offer-preview:hover { background: var(--bg2); margin: 0 -8px; padding: 10px 8px; border-radius: var(--radius); }
+.offer-preview-left { display: flex; flex-direction: column; gap: 2px; }
+.offer-amount { font-size: 18px; font-weight: 600; }
+.offer-pct { font-size: 11px; color: var(--text2); }
+.offer-item { font-size: 12px; color: var(--text2); }
+.offer-strategy { font-size: 11px; color: var(--info-txt); margin-top: 4px; max-width: 280px; }

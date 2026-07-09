@@ -1,0 +1,33 @@
+.photo-folder-box { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius); padding:13px 15px; margin-bottom:11px; }
+.photo-folder-title { font-size:12px; font-weight:600; margin-bottom:5px; }
+.photo-folder-hint  { font-size:11px; color:var(--text2); margin-bottom:8px; }
+.photo-folder-tip   { font-size:11px; color:var(--text2); margin-top:4px; }
+.photo-folder-tip code { background:var(--bg3); padding:1px 4px; border-radius:3px; }
+
+.delivery-opt { display:block; border:0.5px solid var(--border); border-radius:var(--radius); padding:11px 13px; margin-bottom:8px; cursor:pointer; transition:border-color .15s; }
+.delivery-opt:hover { border-color:var(--green); }
+.delivery-opt.selected { border-color:var(--green); background:var(--ok-bg); }
+.delivery-top { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+.delivery-top input { flex-shrink:0; }
+.delivery-label { font-size:13px; font-weight:500; }
+.delivery-tag { font-size:10px; padding:2px 7px; border-radius:99px; margin-left:4px; }
+.tag-ok   { background:var(--ok-bg);   color:var(--ok-txt);   }
+.tag-warn { background:var(--warn-bg); color:var(--warn-txt); }
+.delivery-desc { font-size:11px; color:var(--text2); line-height:1.6; margin-left:20px; }
+
+.platform-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
+.pf-check { display:flex; align-items:center; gap:8px; padding:8px 11px; border:0.5px solid var(--border); border-radius:var(--radius); cursor:pointer; font-size:12px; transition:border-color .15s; }
+.pf-check:hover { border-color:var(--green); }
+.pf-check.selected { border-color:var(--green); }
+.pf-check input { flex-shrink:0; }
+.pf-note { font-size:10px; color:var(--text2); }
+
+.listing-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.listing-field-label { font-size:12px; font-weight:600; margin-bottom:4px; color:var(--text); }
+.copy-row { display:flex; align-items:flex-start; gap:8px; margin-bottom:10px; }
+.listing-box { flex:1; font-size:12px; line-height:1.8; white-space:pre-wrap; background:var(--bg2); border-radius:var(--radius); padding:11px 13px; color:var(--text); border:0.5px solid var(--border); font-family:inherit; margin:0; }
+.copy-btn { flex-shrink:0; align-self:flex-start; }
+
+.fb-guide { background:#E6F1FB; border:0.5px solid #B5D4F4; border-radius:var(--radius); padding:12px 14px; margin-bottom:12px; }
+.fb-guide-title { font-size:12px; font-weight:600; color:#0C447C; margin-bottom:7px; }
+.fb-steps { font-size:11px; color:#185FA5; line-height:2; padding-left:16px; }

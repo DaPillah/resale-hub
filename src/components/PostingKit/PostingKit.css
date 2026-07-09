@@ -1,0 +1,23 @@
+.kit-item-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+.kit-hrs { font-size:20px; font-weight:700; color:#BA7517; }
+.kit-hrs.urgent { color:var(--err-txt); }
+.kit-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+.kit-stat { background:var(--bg2); border-radius:var(--radius); padding:10px 12px; }
+.kit-stat-l { font-size:11px; color:var(--text2); margin-bottom:3px; }
+.kit-stat-v { font-size:17px; font-weight:600; }
+.kit-section { margin-bottom:14px; }
+.kit-section-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--text2); margin-bottom:6px; }
+.folder-path { font-family:monospace; font-size:12px; background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius); padding:8px 12px; }
+.platform-accordion { border:0.5px solid var(--border); border-radius:var(--radius); margin-bottom:8px; overflow:hidden; }
+.platform-accordion-header { display:flex; align-items:center; justify-content:space-between; padding:10px 13px; background:var(--bg2); cursor:pointer; }
+.platform-accordion-header:hover { background:var(--bg3); }
+.platform-accordion-body { padding:13px; }
+.kit-field-label { font-size:12px; font-weight:600; margin-bottom:4px; color:var(--text); }
+.kit-copy-row { display:flex; align-items:flex-start; gap:8px; margin-bottom:10px; }
+.kit-copy-box { flex:1; font-size:12px; line-height:1.7; white-space:pre-wrap; background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius); padding:10px 12px; color:var(--text); font-family:inherit; max-height:220px; overflow-y:auto; }
+.kit-copy-btn { flex-shrink:0; align-self:flex-start; }
+.cowork-guide { display:flex; flex-direction:column; gap:10px; }
+.cowork-step { background:var(--ok-bg); border-radius:var(--radius); padding:11px 14px; }
+.cowork-step-title { font-size:12px; font-weight:600; color:var(--ok-txt); margin-bottom:3px; }
+.cowork-step-desc  { font-size:12px; color:var(--text); }
+@media(max-width:768px){ .kit-stats { grid-template-columns:repeat(2,1fr); } }

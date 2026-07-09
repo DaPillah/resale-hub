@@ -1,0 +1,67 @@
+:root {
+  --bg: #ffffff;
+  --bg2: #f7f7f5;
+  --bg3: #f0efe9;
+  --text: #1a1a18;
+  --text2: #6b6b66;
+  --text3: #9a9a94;
+  --border: rgba(0, 0, 0, 0.12);
+  --border2: rgba(0, 0, 0, 0.22);
+  --ok-bg: #eaf3de;
+  --ok-txt: #27500a;
+  --err-bg: #fcebeb;
+  --err-txt: #791f1f;
+  --info-bg: #e6f1fb;
+  --info-txt: #0c447c;
+  --warn-bg: #faeeda;
+  --warn-txt: #633806;
+  --green: #639922;
+  --green-dark: #3b6d11;
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1e1c;
+    --bg2: #272725;
+    --bg3: #2e2e2c;
+    --text: #e8e8e2;
+    --text2: #9a9a94;
+    --text3: #6b6b66;
+    --border: rgba(255, 255, 255, 0.1);
+    --border2: rgba(255, 255, 255, 0.2);
+    --ok-bg: #173404;
+    --ok-txt: #c0dd97;
+    --err-bg: #501313;
+    --err-txt: #f09595;
+    --info-bg: #042c53;
+    --info-txt: #85b7eb;
+    --warn-bg: #412402;
+    --warn-txt: #fac775;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg3);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

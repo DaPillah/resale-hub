@@ -1,0 +1,5 @@
+.inv-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+.filter-sel { margin:0; font-size:12px; padding:6px 10px; border:0.5px solid var(--border2); border-radius:var(--radius); background:var(--bg); color:var(--text); }
+.photo-set    { font-size:11px; color:var(--ok-txt); }
+.photo-missing{ font-size:11px; color:var(--text2); }
+.offer-badge  { color:var(--warn-txt); font-weight:500; font-size:12px; }
