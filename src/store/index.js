@@ -6,19 +6,19 @@ const SEED_ITEMS = [
   {
     id: 'i1', name: "Levi's 501 Jeans 32x30", cat: 'Clothing', cond: 'Good',
     price: 45, cost: 8, date: '2026-06-10', platforms: ['Poshmark', 'Depop'],
-    delivery: 'both', status: 'Sold', soldOn: 'Poshmark', soldDate: '2026-06-18',
+    delivery: ['pickup', 'ship'], status: 'Sold', soldOn: 'Poshmark', soldDate: '2026-06-18',
     listings: {}, details: '', photoFolder: '~/Resale/Levis 501 Jeans',
   },
   {
     id: 'i2', name: 'Nike Air Force 1 Size 10', cat: 'Shoes', cond: 'Like new',
     price: 75, cost: 22, date: '2026-06-12', platforms: ['eBay', 'Facebook Marketplace'],
-    delivery: 'both', status: 'Sold', soldOn: 'eBay', soldDate: '2026-06-20',
+    delivery: ['pickup', 'ship'], status: 'Sold', soldOn: 'eBay', soldDate: '2026-06-20',
     listings: {}, details: '', photoFolder: '~/Resale/Nike Air Force 1',
   },
   {
     id: 'i3', name: 'Kindle Paperwhite 2022', cat: 'Electronics', cond: 'Like new',
     price: 95, cost: 40, date: '2026-06-18', platforms: ['eBay', 'Mercari'],
-    delivery: 'both', status: 'Listed', soldOn: null, soldDate: null,
+    delivery: ['pickup', 'ship'], status: 'Listed', soldOn: null, soldDate: null,
     listings: {
       eBay: { title: 'Kindle Paperwhite 2022 11th Gen 8GB Like New', desc: 'Like new Kindle Paperwhite 2022. Includes charging cable. Ships fast.' },
       Mercari: { title: 'Kindle Paperwhite 2022 Like New', desc: '• Like new condition\n• Includes cable\n• Ships within 1 day' },
@@ -28,7 +28,7 @@ const SEED_ITEMS = [
   {
     id: 'i4', name: 'H&M Floral Midi Dress S', cat: 'Clothing', cond: 'Good',
     price: 18, cost: 0, date: '2026-06-20', platforms: ['Poshmark', 'Depop', 'Mercari'],
-    delivery: 'both', status: 'Listed', soldOn: null, soldDate: null,
+    delivery: ['pickup', 'ship'], status: 'Listed', soldOn: null, soldDate: null,
     listings: {}, details: 'Floral print, midi length, no flaws', photoFolder: '~/Resale/HM Floral Dress',
   },
 ]

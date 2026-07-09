@@ -79,3 +79,30 @@ export function getOfferStrategy(offerAmount, askingPrice) {
   if (pct >= 70) return { pct, advice: `Low — counter at ${fmt(Math.round(askingPrice * 0.88))} and hold.`, counter: Math.round(askingPrice * 0.88) }
   return { pct, advice: 'Too low — politely decline. These buyers rarely get serious.', counter: null }
 }
+
+// ── Delivery helpers ──────────────────────────────────────────────────────────
+
+const DELIVERY_LABEL_MAP = {
+  pickup: 'Local pickup',
+  both:   'Pickup + shipping',
+  drive:  'Drive to buyer',
+  ship:   'Shipping only',
+}
+
+export function deliveryLabel(delivery) {
+  if (!delivery) return '—'
+  if (typeof delivery === 'string') return DELIVERY_LABEL_MAP[delivery] || delivery
+  if (Array.isArray(delivery)) {
+    if (delivery.length === 0) return '—'
+    return delivery.map((d) => DELIVERY_LABEL_MAP[d] || d).join(', ')
+  }
+  return '—'
+}
+
+export function buildDeliveryText(selectedDelivery) {
+  const selected = DELIVERY_OPTIONS.filter((d) => selectedDelivery.includes(d.id))
+  if (selected.length === 0) return ''
+  if (selected.length === 1) return selected[0].listingText
+  const texts = selected.map((d) => d.listingText)
+  return texts.slice(0, -1).join(', ') + ' or ' + texts[texts.length - 1]
+}

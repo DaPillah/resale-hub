@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useStore } from '../../store'
-import { fmt, calcDropPrice, hoursUntilDrop, PLATFORMS } from '../../services/platforms'
+import { fmt, calcDropPrice, hoursUntilDrop, PLATFORMS, deliveryLabel } from '../../services/platforms'
 import { Card, CardTitle, Badge, Button, Alert, Empty } from '../shared'
 import './PostingKit.css'
 
 const DEEP_LINKS = Object.fromEntries(PLATFORMS.map((p) => [p.name, p.sellUrl]))
-const DELIVERY_LABELS = { pickup: 'Local pickup only', both: 'Pickup or shipping', drive: 'Drive to buyer (≤15 min)', ship: 'Shipping only' }
 
 function CopyBox({ text, multiline }) {
   const [copied, setCopied] = useState(false)
@@ -38,7 +37,7 @@ export default function PostingKit() {
 Item: ${item.name}
 Category: ${item.cat} | Condition: ${item.cond}
 Price: ${fmt(item.price)} | Drop to: ${fmt(calcDropPrice(item.price))} after 2 days
-Delivery: ${DELIVERY_LABELS[item.delivery] || '—'}
+Delivery: ${deliveryLabel(item.delivery)}
 Photo folder: ${item.photoFolder || 'NOT SET — add in inventory'}
 
 PLATFORMS TO POST ON: ${(item.platforms || []).join(', ')}
@@ -55,7 +54,7 @@ For each platform listed above:
 2. Fill in the title and description exactly as written above
 3. Set price to ${fmt(item.price)}
 4. Set condition to "${item.cond}"
-5. Set delivery to: ${DELIVERY_LABELS[item.delivery] || ''}
+5. Set delivery to: ${deliveryLabel(item.delivery)}
 6. Go to photo folder: ${item.photoFolder || '[USER MUST SET PHOTO FOLDER]'}
 7. Upload ALL photos from that folder (best shot first)
 8. DO NOT publish — stop and show user the preview for review` : ''
@@ -94,7 +93,7 @@ For each platform listed above:
             <div className="kit-stats">
               <div className="kit-stat"><p className="kit-stat-l">Asking price</p><p className="kit-stat-v" style={{ color: 'var(--green)' }}>{fmt(item.price)}</p></div>
               <div className="kit-stat"><p className="kit-stat-l">Drop to (2 days)</p><p className="kit-stat-v" style={{ color: '#BA7517' }}>{fmt(calcDropPrice(item.price))}</p></div>
-              <div className="kit-stat"><p className="kit-stat-l">Delivery</p><p style={{ fontSize: 12, fontWeight: 500 }}>{DELIVERY_LABELS[item.delivery] || '—'}</p></div>
+              <div className="kit-stat"><p className="kit-stat-l">Delivery</p><p style={{ fontSize: 12, fontWeight: 500 }}>{deliveryLabel(item.delivery)}</p></div>
               <div className="kit-stat"><p className="kit-stat-l">Platforms</p><div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>{(item.platforms || []).map((p) => <Badge key={p} label={p} />)}</div></div>
             </div>
 
