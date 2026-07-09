@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useStore } from '../../store'
-import { PLATFORMS, CATEGORIES, CONDITIONS, DELIVERY_OPTIONS, fmt } from '../../services/platforms'
+import { PLATFORMS, CATEGORIES, CONDITIONS, DELIVERY_OPTIONS, fmt, buildDeliveryText } from '../../services/platforms'
 import { generateListings, generateFBListing } from '../../services/anthropic'
 import { Card, CardTitle, Button, Alert, Badge, Field } from '../shared'
 import './AddItem.css'
@@ -29,9 +29,10 @@ export default function AddItem() {
   const [form, setForm] = useState({
     name: '', cat: '', cond: '', price: '', cost: '',
     date: new Date().toISOString().slice(0, 10),
-    details: '', photoFolder: '', delivery: 'pickup',
+    details: '', photoFolder: '',
   })
   const [selectedPlatforms, setSelectedPlatforms] = useState(['eBay'])
+  const [selectedDelivery, setSelectedDelivery] = useState(['pickup'])
   const [status, setStatus] = useState({ type: '', msg: '' })
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -40,10 +41,18 @@ export default function AddItem() {
   const togglePf = (name) => setSelectedPlatforms((prev) =>
     prev.includes(name) ? prev.filter((p) => p !== name) : [...prev, name]
   )
+  const toggleDelivery = (id) =>
+    setSelectedDelivery((prev) =>
+      prev.includes(id) ? prev.filter((d) => d !== id) : [...prev, id]
+    )
 
   async function handleSubmit() {
     if (!form.name || !form.cat || !form.cond || !form.price || selectedPlatforms.length === 0) {
       setStatus({ type: 'err', msg: 'Fill in all required fields and select at least one platform.' })
+      return
+    }
+    if (selectedDelivery.length === 0) {
+      setStatus({ type: 'err', msg: 'Select at least one delivery option.' })
       return
     }
     if (!apiKey) {
@@ -55,8 +64,7 @@ export default function AddItem() {
     setStatus({ type: 'info', msg: 'Generating AI listings…' })
     setListings(null)
 
-    const deliveryOption = DELIVERY_OPTIONS.find((d) => d.id === form.delivery)
-    const deliveryText = deliveryOption?.listingText || ''
+    const deliveryText = buildDeliveryText(selectedDelivery)
 
     const newItem = {
       id: 'i_' + Date.now(),
@@ -64,6 +72,7 @@ export default function AddItem() {
       price: parseFloat(form.price),
       cost: parseFloat(form.cost) || 0,
       platforms: selectedPlatforms,
+      delivery: selectedDelivery,
       status: 'Listed',
       soldOn: null,
       soldDate: null,
@@ -145,16 +154,22 @@ export default function AddItem() {
       <Card>
         <CardTitle>Delivery options</CardTitle>
         {DELIVERY_OPTIONS.map((opt) => (
-          <label key={opt.id} className={`delivery-opt${form.delivery === opt.id ? ' selected' : ''}`}
-            onClick={() => setForm((f) => ({ ...f, delivery: opt.id }))}>
+          <label key={opt.id} className={`delivery-opt${selectedDelivery.includes(opt.id) ? ' selected' : ''}`}
+            onClick={() => toggleDelivery(opt.id)}>
             <div className="delivery-top">
-              <input type="radio" name="delivery" value={opt.id} checked={form.delivery === opt.id} onChange={() => {}} />
+              <input type="checkbox" value={opt.id} checked={selectedDelivery.includes(opt.id)} onChange={() => {}} />
               <span className="delivery-label">{opt.label}</span>
               {opt.tag && <span className={`delivery-tag tag-${opt.tagColor}`}>{opt.tag}</span>}
             </div>
             <p className="delivery-desc">{opt.desc}</p>
           </label>
         ))}
+        {selectedDelivery.length > 0 && (
+          <div className="delivery-summary">
+            <span className="delivery-summary-label">Your listing will say: </span>
+            <span className="delivery-summary-text">"{buildDeliveryText(selectedDelivery)}"</span>
+          </div>
+        )}
       </Card>
 
       <Card>

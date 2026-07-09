@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../../store'
-import { fmt, calcDropPrice } from '../../services/platforms'
+import { fmt, calcDropPrice, deliveryLabel } from '../../services/platforms'
 import { Badge, Button, Empty } from '../shared'
 import './Inventory.css'
-
-function deliveryLabel(d) {
-  return { pickup: 'Pickup only', both: 'Pickup + ship', drive: 'Drive to buyer', ship: 'Ship only' }[d] || '—'
-}
 
 export default function Inventory() {
   const items    = useStore((s) => s.items)
