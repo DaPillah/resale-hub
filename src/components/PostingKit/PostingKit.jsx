@@ -33,9 +33,14 @@ export default function PostingKit() {
 
   const togglePlatform = (p) => setOpenPlatforms((prev) => ({ ...prev, [p]: !prev[p] }))
 
+  const FB_NAME = 'Facebook Marketplace'
+  const automatedPlatforms = item ? (item.platforms || []).filter((p) => p !== FB_NAME) : []
+  const hasFB = item ? (item.platforms || []).includes(FB_NAME) : false
+
   const coworkBrief = item ? `=== RESALE HUB — POSTING KIT ===
 Item: ${item.name}
 Category: ${item.cat} | Condition: ${item.cond}
+Brand: ${item.brand || 'Not specified'} | Size: ${item.size || 'Not specified'} | Color: ${item.color || 'Not specified'}
 Price: ${fmt(item.price)} | Drop to: ${fmt(calcDropPrice(item.price))} after 2 days
 Delivery: ${deliveryLabel(item.delivery)}
 Photo folder: ${item.photoFolder || 'NOT SET — add in inventory'}
@@ -44,20 +49,28 @@ PLATFORMS TO POST ON: ${(item.platforms || []).join(', ')}
 
 ${Object.entries(item.listings || {}).map(([p, l]) =>
 `--- ${p.toUpperCase()} ---
+URL: ${DEEP_LINKS[p] || 'no direct link on file — search for their sell/create listing page'}
 Title: ${l.title || ''}
 Description:
 ${l.desc || ''}`).join('\n\n')}
 
 === INSTRUCTIONS FOR COWORK ===
-For each platform listed above:
-1. Open the platform's sell/create listing page
+${automatedPlatforms.length > 0 ? `Automate these platforms one at a time, finishing all steps for one before starting the next: ${automatedPlatforms.join(', ')}
+1. Open the URL listed above for that platform
 2. Fill in the title and description exactly as written above
 3. Set price to ${fmt(item.price)}
-4. Set condition to "${item.cond}"
-5. Set delivery to: ${deliveryLabel(item.delivery)}
-6. Go to photo folder: ${item.photoFolder || '[USER MUST SET PHOTO FOLDER]'}
-7. Upload ALL photos from that folder (best shot first)
-8. DO NOT publish — stop and show user the preview for review` : ''
+4. If the platform has separate Brand / Size / Color fields, fill them in directly using the values above (skip any marked "Not specified") rather than parsing them out of the title or description
+5. Set condition to the closest equivalent to "${item.cond}" — platforms use their own condition wording, so pick the nearest match rather than requiring an exact string
+6. Delivery: ${deliveryLabel(item.delivery)}. Only "local pickup" and "shipping" are usually real form toggles — "drive to buyer" is informational only (it's already worked into the description) and won't have its own field
+7. ${item.photoFolder ? `Upload ALL photos from ${item.photoFolder} (best shot first)` : 'No photo folder is set — pause and ask the user for photos directly rather than searching for a folder'}
+8. DO NOT publish — stop and show the user the preview for review
+` : ''}${hasFB ? `
+--- FACEBOOK MARKETPLACE: MANUAL ONLY, DO NOT AUTOMATE ---
+Facebook aggressively flags automated browsing and can lock accounts over it. Do not control the browser on Facebook Marketplace. Instead, walk the user through posting it themselves:
+- Give them the title and description above to paste in
+- Tell them the price, condition, and delivery to set
+- Remind them to upload photos from ${item.photoFolder || '[photo folder not set — ask them for photos]'}, best shot first
+` : ''}` : ''
 
   return (
     <div>
@@ -80,7 +93,9 @@ For each platform listed above:
             <div className="kit-item-header">
               <div>
                 <p style={{ fontSize: 16, fontWeight: 600 }}>{item.name}</p>
-                <p style={{ fontSize: 12, color: 'var(--text2)' }}>{item.cat} · {item.cond} · {fmt(item.price)}</p>
+                <p style={{ fontSize: 12, color: 'var(--text2)' }}>
+                  {[item.cat, item.cond, fmt(item.price), item.brand, item.size, item.color].filter(Boolean).join(' · ')}
+                </p>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <p style={{ fontSize: 11, color: 'var(--text2)' }}>Price drop in</p>
@@ -149,7 +164,7 @@ For each platform listed above:
                 ['1. Copy the brief above', 'Click the Copy button on the Cowork brief.'],
                 ['2. Open Cowork (Claude Desktop)', 'Start a new session or continue your existing one.'],
                 ['3. Paste and give the instruction', 'Paste the brief, then say: "Post this item to eBay" (or whichever platform).'],
-                ['4. Watch Cowork work', 'It will open the platform, fill in the form fields, navigate to your photo folder, and upload photos.'],
+                ['4. Watch Cowork work', 'It will open each platform, fill in the form fields, navigate to your photo folder, and upload photos. Facebook Marketplace is handled manually — Cowork will walk you through posting it yourself instead of automating the browser.'],
                 ['5. Review and publish', 'Cowork will stop and show you the listing preview. You click Publish when it looks good.'],
               ].map(([title, desc]) => (
                 <div key={title} className="cowork-step">

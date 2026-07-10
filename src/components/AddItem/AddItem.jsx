@@ -29,7 +29,7 @@ export default function AddItem() {
   const [form, setForm] = useState({
     name: '', cat: '', cond: '', price: '', cost: '',
     date: new Date().toISOString().slice(0, 10),
-    details: '', photoFolder: '',
+    details: '', photoFolder: '', brand: '', size: '', color: '',
   })
   const [selectedPlatforms, setSelectedPlatforms] = useState(['eBay'])
   const [selectedDelivery, setSelectedDelivery] = useState(['pickup'])
@@ -92,6 +92,7 @@ export default function AddItem() {
         const ai = await generateListings(apiKey, {
           name: form.name, cat: form.cat, cond: form.cond,
           price: form.price, details: form.details,
+          brand: form.brand, size: form.size, color: form.color,
           deliveryText, platforms: aiPlatforms,
         })
         Object.assign(generatedListings, ai)
@@ -123,6 +124,11 @@ export default function AddItem() {
             </select>
           </Field>
         </div>
+        <div className="g3">
+          <Field label="Brand" hint="optional"><input value={form.brand} onChange={set('brand')} placeholder="e.g. Levi's" /></Field>
+          <Field label="Size" hint="optional"><input value={form.size} onChange={set('size')} placeholder="e.g. 32x30 or M" /></Field>
+          <Field label="Color" hint="optional"><input value={form.color} onChange={set('color')} placeholder="e.g. Dark Wash" /></Field>
+        </div>
         <div className="g2">
           <Field label="Condition *">
             <select value={form.cond} onChange={set('cond')}>
@@ -137,7 +143,7 @@ export default function AddItem() {
           <Field label="Date added"><input type="date" value={form.date} onChange={set('date')} /></Field>
         </div>
         <Field label="Key details to highlight">
-          <textarea value={form.details} onChange={set('details')} placeholder="Brand, size, color, features, flaws, reason for selling…" />
+          <textarea value={form.details} onChange={set('details')} placeholder="Features, flaws, reason for selling…" />
         </Field>
         <div className="photo-folder-box">
           <p className="photo-folder-title">📁 Photo folder path</p>

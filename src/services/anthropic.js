@@ -24,7 +24,7 @@ async function callClaude(apiKey, prompt, maxTokens = 1400) {
 
 // ── Generate listings ─────────────────────────────────────────────────────────
 
-export async function generateListings(apiKey, { name, cat, cond, price, details, deliveryText, platforms }) {
+export async function generateListings(apiKey, { name, cat, cond, price, details, brand, size, color, deliveryText, platforms }) {
   const prompt = `Generate optimized resale listing copy. Output ONLY in this format with --- between platforms, no preamble:
 PLATFORM: [name]
 TITLE: [title]
@@ -32,9 +32,12 @@ DESCRIPTION: [description]
 ---
 
 Item: ${name} | Category: ${cat} | Condition: ${cond} | Price: $${price}
+Brand: ${brand || 'Not specified'} | Size: ${size || 'Not specified'} | Color: ${color || 'Not specified'}
 Delivery: ${deliveryText}
 Details: ${details || 'None'}
 Platforms: ${platforms.join(', ')}
+
+State the brand and size explicitly and near the start of each description — platforms surface these as searchable fields, not just prose.
 
 Style guide:
 - eBay: keyword-rich title (80 chars), detailed description with specs and condition notes, mention shipping
@@ -103,17 +106,19 @@ Base numbers on actual SOLD prices, not asking prices.`
 
 // ── FB Marketplace listing (no AI needed — template) ─────────────────────────
 
-export function generateFBListing({ name, cond, price, details, deliveryText, cat }) {
+export function generateFBListing({ name, cond, price, details, deliveryText, cat, brand, size, color }) {
   const title = `${cond} ${name} — $${price}`
+  const specs = [brand && `Brand: ${brand}`, size && `Size: ${size}`, color && `Color: ${color}`].filter(Boolean).join(' | ')
   const desc = [
     name,
     `Condition: ${cond}`,
+    specs || null,
     `Price: $${price}`,
     deliveryText,
     '',
     details || 'Great item, well maintained.',
     '',
     'Message with any questions!',
-  ].join('\n')
+  ].filter((line) => line !== null).join('\n')
   return { title, desc }
 }
