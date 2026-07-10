@@ -44,7 +44,6 @@ Style guide:
 - Poshmark: fashion-forward, brand prominent, size visible, end with 3-5 hashtags
 - Mercari: concise, bullet-point condition notes, friendly tone, call out any flaws
 - Depop: casual Gen Z tone, lowercase title okay, style-focused hashtags
-- OfferUp: local community feel, short paragraphs, mention pickup/meetup
 
 Always include delivery info naturally in the description.`
 

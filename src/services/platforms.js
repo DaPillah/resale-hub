@@ -6,7 +6,6 @@ export const PLATFORMS = [
   { id: 'pm',  name: 'Poshmark',             badge: 'b-pm', color: '#D4537E', sellUrl: 'https://poshmark.com/create-listing' },
   { id: 'mc',  name: 'Mercari',              badge: 'b-mc', color: '#639922', sellUrl: 'https://www.mercari.com/sell/' },
   { id: 'dp',  name: 'Depop',               badge: 'b-dp', color: '#7F77DD', sellUrl: 'https://www.depop.com/sell/' },
-  { id: 'ou',  name: 'OfferUp',             badge: 'b-ou', color: '#D85A30', sellUrl: 'https://offerup.com/sell/' },
 ]
 
 export const PLATFORM_MAP = Object.fromEntries(PLATFORMS.map((p) => [p.name, p]))

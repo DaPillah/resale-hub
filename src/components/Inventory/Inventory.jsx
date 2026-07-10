@@ -47,7 +47,7 @@ export default function Inventory() {
           </select>
           <select value={filterPf} onChange={(e) => setFilterPf(e.target.value)} className="filter-sel">
             <option value="">All platforms</option>
-            {['Facebook Marketplace','eBay','Poshmark','Mercari','Depop','OfferUp'].map((p) => <option key={p}>{p}</option>)}
+            {['Facebook Marketplace','eBay','Poshmark','Mercari','Depop'].map((p) => <option key={p}>{p}</option>)}
           </select>
           <Button variant="primary" size="sm" onClick={() => navigate('/add')}>+ Add item</Button>
         </div>

@@ -1,6 +1,6 @@
 # 🛍️ Resale Hub
 
-Your personal resale selling command center. List items across Facebook Marketplace, eBay, Poshmark, Mercari, Depop, and OfferUp — with AI-generated listings, price research, negotiation tracking, and a Cowork integration for semi-automated posting.
+Your personal resale selling command center. List items across Facebook Marketplace, eBay, Poshmark, Mercari, and Depop — with AI-generated listings, price research, negotiation tracking, and a Cowork integration for semi-automated posting.
 
 ## Features
 

@@ -60,7 +60,7 @@ export default function PriceResearch() {
           <Field label="Primary platform">
             <select value={form.platform} onChange={set('platform')}>
               <option value="">Any platform</option>
-              {['Facebook Marketplace','eBay','Poshmark','Mercari','Depop','OfferUp'].map((p) => <option key={p}>{p}</option>)}
+              {['Facebook Marketplace','eBay','Poshmark','Mercari','Depop'].map((p) => <option key={p}>{p}</option>)}
             </select>
           </Field>
         </div>

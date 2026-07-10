@@ -3,7 +3,7 @@ import { useStore } from '../../store'
 import { fmt, CAT_COLORS, PLATFORM_MAP } from '../../services/platforms'
 import { Card, CardTitle, Badge, Empty, BarRow } from '../shared'
 
-const ALL_PF = ['Facebook Marketplace','eBay','Poshmark','Mercari','Depop','OfferUp']
+const ALL_PF = ['Facebook Marketplace','eBay','Poshmark','Mercari','Depop']
 
 export default function PlatformIntel() {
   const items = useStore((s) => s.items)
