@@ -21,6 +21,7 @@ function CopyBox({ text, multiline }) {
 export default function PostingKit() {
   const items  = useStore((s) => s.items)
   const userLocation = useStore((s) => s.userLocation)
+  const togglePosted = useStore((s) => s.togglePosted)
   const location = useLocation()
   const [selectedId, setSelectedId] = useState(location.state?.itemId || '')
   const [openPlatforms, setOpenPlatforms] = useState({})
@@ -35,8 +36,9 @@ export default function PostingKit() {
   const togglePlatform = (p) => setOpenPlatforms((prev) => ({ ...prev, [p]: !prev[p] }))
 
   const FB_NAME = 'Facebook Marketplace'
-  const automatedPlatforms = item ? (item.platforms || []).filter((p) => p !== FB_NAME) : []
-  const hasFB = item ? (item.platforms || []).includes(FB_NAME) : false
+  const postedPlatforms = item ? (item.postedPlatforms || []) : []
+  const automatedPlatforms = item ? (item.platforms || []).filter((p) => p !== FB_NAME && !postedPlatforms.includes(p)) : []
+  const hasFB = item ? (item.platforms || []).includes(FB_NAME) && !postedPlatforms.includes(FB_NAME) : false
   const missingListings = item ? (item.platforms || []).filter((p) => !item.listings?.[p]?.desc) : []
 
   const coworkBrief = item ? `=== RESALE HUB — POSTING KIT ===
@@ -49,9 +51,9 @@ Location: ${userLocation || 'Not set — ask the user for their general area/zip
 Photo folder: ${item.photoFolder || 'NOT SET — add in inventory'}
 
 PLATFORMS TO POST ON: ${(item.platforms || []).join(', ')}
-${missingListings.length > 0 ? `\nNO LISTING COPY GENERATED YET FOR: ${missingListings.join(', ')} — do not invent a title/description for these, go back to Add & Post Item and generate copy first\n` : ''}
+${postedPlatforms.length > 0 ? `ALREADY POSTED (skip — do not repost): ${postedPlatforms.join(', ')}\n` : ''}${missingListings.length > 0 ? `\nNO LISTING COPY GENERATED YET FOR: ${missingListings.join(', ')} — do not invent a title/description for these, go back to Add & Post Item and generate copy first\n` : ''}
 ${Object.entries(item.listings || {}).map(([p, l]) =>
-`--- ${p.toUpperCase()} ---
+`--- ${p.toUpperCase()}${postedPlatforms.includes(p) ? ' (ALREADY POSTED — SKIP)' : ''} ---
 URL: ${DEEP_LINKS[p] || 'no direct link on file — search for their sell/create listing page'}
 Title: ${l.title || ''}
 Description:
@@ -70,13 +72,15 @@ ${automatedPlatforms.length > 0 ? `Automate these platforms one at a time, finis
 9. ${item.photoFolder ? `Upload ALL photos from ${item.photoFolder} (best shot first)` : 'No photo folder is set — pause and ask the user for photos directly rather than searching for a folder'}
 10. If a required field isn't covered by anything above, stop and ask the user rather than guessing
 11. DO NOT publish — stop and show the user the preview for review
+12. Once the user confirms it's live, check that platform's "Posted" box on this Posting Kit page before moving to the next platform or item
 ` : ''}${hasFB ? `
 --- FACEBOOK MARKETPLACE: MANUAL ONLY, DO NOT AUTOMATE ---
 Facebook aggressively flags automated browsing and can lock accounts over it. Do not control the browser on Facebook Marketplace. Instead, walk the user through posting it themselves:
 - Give them the title and description above to paste in
 - Tell them the price, condition, and delivery to set
 - Remind them to upload photos from ${item.photoFolder || '[photo folder not set — ask them for photos]'}, best shot first
-` : ''}` : ''
+- Once they confirm it's live, check Facebook Marketplace's "Posted" box on this Posting Kit page
+` : ''}${automatedPlatforms.length === 0 && !hasFB ? 'Every selected platform is already marked posted — nothing to do for this item.\n' : ''}` : ''
 
   return (
     <div>
@@ -115,7 +119,12 @@ Facebook aggressively flags automated browsing and can lock accounts over it. Do
               <div className="kit-stat"><p className="kit-stat-l">Asking price</p><p className="kit-stat-v" style={{ color: 'var(--green)' }}>{fmt(item.price)}</p></div>
               <div className="kit-stat"><p className="kit-stat-l">Drop to (2 days)</p><p className="kit-stat-v" style={{ color: '#BA7517' }}>{fmt(calcDropPrice(item.price))}</p></div>
               <div className="kit-stat"><p className="kit-stat-l">Delivery</p><p style={{ fontSize: 12, fontWeight: 500 }}>{deliveryLabel(item.delivery)}</p></div>
-              <div className="kit-stat"><p className="kit-stat-l">Platforms</p><div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>{(item.platforms || []).map((p) => <Badge key={p} label={p} />)}</div></div>
+              <div className="kit-stat"><p className="kit-stat-l">Platforms</p><div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', alignItems: 'center' }}>{(item.platforms || []).map((p) => (
+                <span key={p} style={{ display: 'flex', alignItems: 'center', gap: 2, opacity: postedPlatforms.includes(p) ? 0.6 : 1 }}>
+                  <Badge label={p} />
+                  {postedPlatforms.includes(p) && <span style={{ fontSize: 11, color: 'var(--ok-txt)' }} title="Already posted">✓</span>}
+                </span>
+              ))}</div></div>
             </div>
 
             <div className="kit-section">
@@ -139,7 +148,13 @@ Facebook aggressively flags automated browsing and can lock accounts over it. Do
                 <div key={platform} className="platform-accordion">
                   <div className="platform-accordion-header" onClick={() => togglePlatform(platform)}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Badge label={platform} /></div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: 'var(--text2)' }}
+                        onClick={(e) => e.stopPropagation()}>
+                        <input type="checkbox" checked={postedPlatforms.includes(platform)}
+                          onChange={() => togglePosted(item.id, platform)} />
+                        Posted
+                      </label>
                       <a href={DEEP_LINKS[platform] || '#'} target="_blank" rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}>
                         <Button size="sm">Open {platform.replace(' Marketplace', '')} ↗</Button>
@@ -176,6 +191,7 @@ Facebook aggressively flags automated browsing and can lock accounts over it. Do
                 ['3. Paste and give the instruction', 'Paste the brief, then say: "Post this item to eBay" (or whichever platform).'],
                 ['4. Watch Cowork work', 'It will open each platform, fill in the form fields, navigate to your photo folder, and upload photos. Facebook Marketplace is handled manually — Cowork will walk you through posting it yourself instead of automating the browser.'],
                 ['5. Review and publish', 'Cowork will stop and show you the listing preview. You click Publish when it looks good.'],
+                ['6. Check it off', 'Once it\'s live, check that platform\'s "Posted" box below (or ask Cowork to) so it\'s skipped next time — this matters if you ever ask Cowork to go through several items in one sweep.'],
               ].map(([title, desc]) => (
                 <div key={title} className="cowork-step">
                   <p className="cowork-step-title">{title}</p>

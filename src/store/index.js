@@ -8,14 +8,14 @@ const SEED_ITEMS = [
     price: 45, cost: 8, date: '2026-06-10', platforms: ['Poshmark', 'Depop'],
     delivery: ['pickup', 'ship'], status: 'Sold', soldOn: 'Poshmark', soldDate: '2026-06-18',
     listings: {}, details: '', photoFolder: '~/Resale/Levis 501 Jeans',
-    brand: "Levi's", size: '32x30', color: 'Dark Wash',
+    brand: "Levi's", size: '32x30', color: 'Dark Wash', postedPlatforms: [],
   },
   {
     id: 'i2', name: 'Nike Air Force 1 Size 10', cat: 'Shoes', cond: 'Like new',
     price: 75, cost: 22, date: '2026-06-12', platforms: ['eBay', 'Facebook Marketplace'],
     delivery: ['pickup', 'ship'], status: 'Sold', soldOn: 'eBay', soldDate: '2026-06-20',
     listings: {}, details: '', photoFolder: '~/Resale/Nike Air Force 1',
-    brand: 'Nike', size: '10', color: 'White',
+    brand: 'Nike', size: '10', color: 'White', postedPlatforms: ['eBay'],
   },
   {
     id: 'i3', name: 'Kindle Paperwhite 2022', cat: 'Electronics', cond: 'Like new',
@@ -26,14 +26,14 @@ const SEED_ITEMS = [
       Mercari: { title: 'Kindle Paperwhite 2022 Like New', desc: '• Like new condition\n• Includes cable\n• Ships within 1 day' },
     },
     details: 'Includes original charging cable', photoFolder: '~/Resale/Kindle Paperwhite',
-    brand: 'Amazon', size: '', color: 'Black',
+    brand: 'Amazon', size: '', color: 'Black', postedPlatforms: ['eBay'],
   },
   {
     id: 'i4', name: 'H&M Floral Midi Dress S', cat: 'Clothing', cond: 'Good',
     price: 18, cost: 0, date: '2026-06-20', platforms: ['Poshmark', 'Depop', 'Mercari'],
     delivery: ['pickup', 'ship'], status: 'Listed', soldOn: null, soldDate: null,
     listings: {}, details: 'Floral print, midi length, no flaws', photoFolder: '~/Resale/HM Floral Dress',
-    brand: 'H&M', size: 'S', color: 'Floral',
+    brand: 'H&M', size: 'S', color: 'Floral', postedPlatforms: [],
   },
 ]
 
@@ -78,6 +78,20 @@ export const useStore = create(
               : i
           ),
           offers: s.offers.map((o) => (o.itemId === id ? { ...o, resolved: true } : o)),
+        })),
+
+      togglePosted: (id, platform) =>
+        set((s) => ({
+          items: s.items.map((i) => {
+            if (i.id !== id) return i
+            const posted = i.postedPlatforms || []
+            return {
+              ...i,
+              postedPlatforms: posted.includes(platform)
+                ? posted.filter((p) => p !== platform)
+                : [...posted, platform],
+            }
+          }),
         })),
 
       // ── offer actions ──
