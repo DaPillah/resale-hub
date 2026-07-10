@@ -5,7 +5,7 @@ import './shared.css'
 // ── Badge ─────────────────────────────────────────────────────────────────────
 const BADGE_CLASS = {
   'Facebook Marketplace': 'b-fb', eBay: 'b-eb', Poshmark: 'b-pm',
-  Mercari: 'b-mc', Depop: 'b-dp', OfferUp: 'b-ou',
+  Mercari: 'b-mc', Depop: 'b-dp',
   Sold: 'b-sold', Listed: 'b-listed', Draft: 'b-draft',
 }
 

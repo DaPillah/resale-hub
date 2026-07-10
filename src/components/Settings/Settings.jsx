@@ -87,7 +87,7 @@ export default function Settings() {
         <CardTitle>About</CardTitle>
         <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.8 }}>
           Resale Hub v4.0 · Built with React + Vite · Hosted on GitHub Pages<br />
-          Platforms: Facebook Marketplace, eBay, Poshmark, Mercari, Depop, OfferUp<br />
+          Platforms: Facebook Marketplace, eBay, Poshmark, Mercari, Depop<br />
           AI powered by Anthropic Claude · Data stored locally in your browser
         </p>
       </Card>

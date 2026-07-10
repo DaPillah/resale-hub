@@ -62,7 +62,7 @@ export default function Negotiations() {
             <Field label="Platform offer came from">
               <select value={form.platform} onChange={set('platform')}>
                 <option value="">Select…</option>
-                {['Facebook Marketplace','eBay','Poshmark','Mercari','Depop','OfferUp','Text/Other'].map((p) => <option key={p}>{p}</option>)}
+                {['Facebook Marketplace','eBay','Poshmark','Mercari','Depop','Text/Other'].map((p) => <option key={p}>{p}</option>)}
               </select>
             </Field>
             <Field label="Offer amount ($)">
