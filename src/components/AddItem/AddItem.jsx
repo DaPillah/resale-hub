@@ -77,6 +77,7 @@ export default function AddItem() {
       soldOn: null,
       soldDate: null,
       listings: {},
+      postedPlatforms: [],
     }
 
     try {

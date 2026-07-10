@@ -75,7 +75,15 @@ export default function Inventory() {
                         <br /><span style={{ fontSize: 11, color: 'var(--text2)' }}>{i.cat}{i.cond ? ` · ${i.cond}` : ''}</span>
                       </td>
                       <td><Badge label={i.status} /></td>
-                      <td>{(i.platforms || []).map((p) => <Badge key={p} label={p} />)}</td>
+                      <td>{(i.platforms || []).map((p) => {
+                        const posted = (i.postedPlatforms || []).includes(p)
+                        return (
+                          <span key={p} style={{ display: 'inline-flex', alignItems: 'center', gap: 2, opacity: posted ? 0.6 : 1 }}>
+                            <Badge label={p} />
+                            {posted && <span style={{ fontSize: 11, color: 'var(--ok-txt)' }} title="Already posted">✓</span>}
+                          </span>
+                        )
+                      })}</td>
                       <td style={{ fontSize: 12, color: 'var(--text2)' }}>{deliveryLabel(i.delivery)}</td>
                       <td className={i.photoFolder ? 'photo-set' : 'photo-missing'}>
                         {i.photoFolder ? '📁 Set' : '✗ Not set'}
