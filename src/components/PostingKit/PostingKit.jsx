@@ -40,6 +40,7 @@ export default function PostingKit() {
   const coworkBrief = item ? `=== RESALE HUB — POSTING KIT ===
 Item: ${item.name}
 Category: ${item.cat} | Condition: ${item.cond}
+Brand: ${item.brand || 'Not specified'} | Size: ${item.size || 'Not specified'} | Color: ${item.color || 'Not specified'}
 Price: ${fmt(item.price)} | Drop to: ${fmt(calcDropPrice(item.price))} after 2 days
 Delivery: ${deliveryLabel(item.delivery)}
 Photo folder: ${item.photoFolder || 'NOT SET — add in inventory'}
@@ -58,10 +59,11 @@ ${automatedPlatforms.length > 0 ? `Automate these platforms one at a time, finis
 1. Open the URL listed above for that platform
 2. Fill in the title and description exactly as written above
 3. Set price to ${fmt(item.price)}
-4. Set condition to the closest equivalent to "${item.cond}" — platforms use their own condition wording, so pick the nearest match rather than requiring an exact string
-5. Delivery: ${deliveryLabel(item.delivery)}. Only "local pickup" and "shipping" are usually real form toggles — "drive to buyer" is informational only (it's already worked into the description) and won't have its own field
-6. ${item.photoFolder ? `Upload ALL photos from ${item.photoFolder} (best shot first)` : 'No photo folder is set — pause and ask the user for photos directly rather than searching for a folder'}
-7. DO NOT publish — stop and show the user the preview for review
+4. If the platform has separate Brand / Size / Color fields, fill them in directly using the values above (skip any marked "Not specified") rather than parsing them out of the title or description
+5. Set condition to the closest equivalent to "${item.cond}" — platforms use their own condition wording, so pick the nearest match rather than requiring an exact string
+6. Delivery: ${deliveryLabel(item.delivery)}. Only "local pickup" and "shipping" are usually real form toggles — "drive to buyer" is informational only (it's already worked into the description) and won't have its own field
+7. ${item.photoFolder ? `Upload ALL photos from ${item.photoFolder} (best shot first)` : 'No photo folder is set — pause and ask the user for photos directly rather than searching for a folder'}
+8. DO NOT publish — stop and show the user the preview for review
 ` : ''}${hasFB ? `
 --- FACEBOOK MARKETPLACE: MANUAL ONLY, DO NOT AUTOMATE ---
 Facebook aggressively flags automated browsing and can lock accounts over it. Do not control the browser on Facebook Marketplace. Instead, walk the user through posting it themselves:
@@ -91,7 +93,9 @@ Facebook aggressively flags automated browsing and can lock accounts over it. Do
             <div className="kit-item-header">
               <div>
                 <p style={{ fontSize: 16, fontWeight: 600 }}>{item.name}</p>
-                <p style={{ fontSize: 12, color: 'var(--text2)' }}>{item.cat} · {item.cond} · {fmt(item.price)}</p>
+                <p style={{ fontSize: 12, color: 'var(--text2)' }}>
+                  {[item.cat, item.cond, fmt(item.price), item.brand, item.size, item.color].filter(Boolean).join(' · ')}
+                </p>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <p style={{ fontSize: 11, color: 'var(--text2)' }}>Price drop in</p>

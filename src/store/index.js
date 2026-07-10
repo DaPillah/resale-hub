@@ -8,12 +8,14 @@ const SEED_ITEMS = [
     price: 45, cost: 8, date: '2026-06-10', platforms: ['Poshmark', 'Depop'],
     delivery: ['pickup', 'ship'], status: 'Sold', soldOn: 'Poshmark', soldDate: '2026-06-18',
     listings: {}, details: '', photoFolder: '~/Resale/Levis 501 Jeans',
+    brand: "Levi's", size: '32x30', color: 'Dark Wash',
   },
   {
     id: 'i2', name: 'Nike Air Force 1 Size 10', cat: 'Shoes', cond: 'Like new',
     price: 75, cost: 22, date: '2026-06-12', platforms: ['eBay', 'Facebook Marketplace'],
     delivery: ['pickup', 'ship'], status: 'Sold', soldOn: 'eBay', soldDate: '2026-06-20',
     listings: {}, details: '', photoFolder: '~/Resale/Nike Air Force 1',
+    brand: 'Nike', size: '10', color: 'White',
   },
   {
     id: 'i3', name: 'Kindle Paperwhite 2022', cat: 'Electronics', cond: 'Like new',
@@ -24,12 +26,14 @@ const SEED_ITEMS = [
       Mercari: { title: 'Kindle Paperwhite 2022 Like New', desc: '• Like new condition\n• Includes cable\n• Ships within 1 day' },
     },
     details: 'Includes original charging cable', photoFolder: '~/Resale/Kindle Paperwhite',
+    brand: 'Amazon', size: '', color: 'Black',
   },
   {
     id: 'i4', name: 'H&M Floral Midi Dress S', cat: 'Clothing', cond: 'Good',
     price: 18, cost: 0, date: '2026-06-20', platforms: ['Poshmark', 'Depop', 'Mercari'],
     delivery: ['pickup', 'ship'], status: 'Listed', soldOn: null, soldDate: null,
     listings: {}, details: 'Floral print, midi length, no flaws', photoFolder: '~/Resale/HM Floral Dress',
+    brand: 'H&M', size: 'S', color: 'Floral',
   },
 ]
 
