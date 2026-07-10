@@ -172,7 +172,7 @@ Facebook aggressively flags automated browsing and can lock accounts over it. Do
             <div className="cowork-guide">
               {[
                 ['1. Copy the brief above', 'Click the Copy button on the Cowork brief.'],
-                ['2. Open Cowork (Claude Desktop)', 'Start a new session or continue your existing one.'],
+                ['2. Open Cowork (Claude Desktop)', 'Starting a new session? Paste cowork/cowork_prompt.md first — it gives Cowork your platforms, delivery options, pricing strategy, and safety rules, and only needs to be pasted once. Continuing an existing session that already has it loaded? Skip straight to step 3.'],
                 ['3. Paste and give the instruction', 'Paste the brief, then say: "Post this item to eBay" (or whichever platform).'],
                 ['4. Watch Cowork work', 'It will open each platform, fill in the form fields, navigate to your photo folder, and upload photos. Facebook Marketplace is handled manually — Cowork will walk you through posting it yourself instead of automating the browser.'],
                 ['5. Review and publish', 'Cowork will stop and show you the listing preview. You click Publish when it looks good.'],
