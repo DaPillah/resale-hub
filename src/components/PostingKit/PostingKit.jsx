@@ -20,6 +20,7 @@ function CopyBox({ text, multiline }) {
 
 export default function PostingKit() {
   const items  = useStore((s) => s.items)
+  const userLocation = useStore((s) => s.userLocation)
   const location = useLocation()
   const [selectedId, setSelectedId] = useState(location.state?.itemId || '')
   const [openPlatforms, setOpenPlatforms] = useState({})
@@ -36,6 +37,7 @@ export default function PostingKit() {
   const FB_NAME = 'Facebook Marketplace'
   const automatedPlatforms = item ? (item.platforms || []).filter((p) => p !== FB_NAME) : []
   const hasFB = item ? (item.platforms || []).includes(FB_NAME) : false
+  const missingListings = item ? (item.platforms || []).filter((p) => !item.listings?.[p]?.desc) : []
 
   const coworkBrief = item ? `=== RESALE HUB — POSTING KIT ===
 Item: ${item.name}
@@ -43,10 +45,11 @@ Category: ${item.cat} | Condition: ${item.cond}
 Brand: ${item.brand || 'Not specified'} | Size: ${item.size || 'Not specified'} | Color: ${item.color || 'Not specified'}
 Price: ${fmt(item.price)} | Drop to: ${fmt(calcDropPrice(item.price))} after 2 days
 Delivery: ${deliveryLabel(item.delivery)}
+Location: ${userLocation || 'Not set — ask the user for their general area/zip before submitting any form that requires one'}
 Photo folder: ${item.photoFolder || 'NOT SET — add in inventory'}
 
 PLATFORMS TO POST ON: ${(item.platforms || []).join(', ')}
-
+${missingListings.length > 0 ? `\nNO LISTING COPY GENERATED YET FOR: ${missingListings.join(', ')} — do not invent a title/description for these, go back to Add & Post Item and generate copy first\n` : ''}
 ${Object.entries(item.listings || {}).map(([p, l]) =>
 `--- ${p.toUpperCase()} ---
 URL: ${DEEP_LINKS[p] || 'no direct link on file — search for their sell/create listing page'}
@@ -61,9 +64,12 @@ ${automatedPlatforms.length > 0 ? `Automate these platforms one at a time, finis
 3. Set price to ${fmt(item.price)}
 4. If the platform has separate Brand / Size / Color fields, fill them in directly using the values above (skip any marked "Not specified") rather than parsing them out of the title or description
 5. Set condition to the closest equivalent to "${item.cond}" — platforms use their own condition wording, so pick the nearest match rather than requiring an exact string
-6. Delivery: ${deliveryLabel(item.delivery)}. Only "local pickup" and "shipping" are usually real form toggles — "drive to buyer" is informational only (it's already worked into the description) and won't have its own field
-7. ${item.photoFolder ? `Upload ALL photos from ${item.photoFolder} (best shot first)` : 'No photo folder is set — pause and ask the user for photos directly rather than searching for a folder'}
-8. DO NOT publish — stop and show the user the preview for review
+6. Set category to the closest equivalent to "${item.cat}" — this app's categories are broad, so pick whatever specific category the platform offers that best fits, rather than expecting an exact match
+7. Delivery: ${deliveryLabel(item.delivery)}. Only "local pickup" and "shipping" are usually real form toggles — "drive to buyer" is informational only (it's already worked into the description) and won't have its own field
+8. If the platform asks for your location/zip, use: ${userLocation || '[not set — ask the user]'}
+9. ${item.photoFolder ? `Upload ALL photos from ${item.photoFolder} (best shot first)` : 'No photo folder is set — pause and ask the user for photos directly rather than searching for a folder'}
+10. If a required field isn't covered by anything above, stop and ask the user rather than guessing
+11. DO NOT publish — stop and show the user the preview for review
 ` : ''}${hasFB ? `
 --- FACEBOOK MARKETPLACE: MANUAL ONLY, DO NOT AUTOMATE ---
 Facebook aggressively flags automated browsing and can lock accounts over it. Do not control the browser on Facebook Marketplace. Instead, walk the user through posting it themselves:
@@ -119,6 +125,10 @@ Facebook aggressively flags automated browsing and can lock accounts over it. Do
                 : <Alert type="warn">No photo folder set. Edit the item in inventory to add one.</Alert>
               }
             </div>
+
+            {missingListings.length > 0 && (
+              <Alert type="warn">No listing copy generated yet for {missingListings.join(', ')} — go to Add &amp; post item to generate it before using this kit, otherwise Cowork has no title/description to work from for {missingListings.length > 1 ? 'those platforms' : 'that platform'}.</Alert>
+            )}
           </Card>
 
           <Card>
@@ -162,7 +172,7 @@ Facebook aggressively flags automated browsing and can lock accounts over it. Do
             <div className="cowork-guide">
               {[
                 ['1. Copy the brief above', 'Click the Copy button on the Cowork brief.'],
-                ['2. Open Cowork (Claude Desktop)', 'Start a new session or continue your existing one.'],
+                ['2. Open Cowork (Claude Desktop)', 'Starting a new session? Paste cowork/cowork_prompt.md first — it gives Cowork your platforms, delivery options, pricing strategy, and safety rules, and only needs to be pasted once. Continuing an existing session that already has it loaded? Skip straight to step 3.'],
                 ['3. Paste and give the instruction', 'Paste the brief, then say: "Post this item to eBay" (or whichever platform).'],
                 ['4. Watch Cowork work', 'It will open each platform, fill in the form fields, navigate to your photo folder, and upload photos. Facebook Marketplace is handled manually — Cowork will walk you through posting it yourself instead of automating the browser.'],
                 ['5. Review and publish', 'Cowork will stop and show you the listing preview. You click Publish when it looks good.'],
